@@ -20,6 +20,8 @@
  
 package org.emergent.android.weave.client;
  
+import java.io.UnsupportedEncodingException;
+
 /**
  * Base32 - encodes and decodes RFC3548 Base32
  * (see http://www.faqs.org/rfcs/rfc3548.html )
@@ -43,9 +45,9 @@ public class Base32 {
       0x17,0x18,0x19,0xFF,0xFF,0xFF,0xFF,0xFF  // 'x', 'y', 'z', '{', '|', '}', '~', 'DEL'
     };
  
- 
-  public static byte[] encode(byte[] data) {
-    return WeaveUtil.toAsciiBytes(encodeOriginal(data).toLowerCase());
+  public static byte[] encode(byte[] data) throws UnsupportedEncodingException {
+    String lower = encodeOriginal(data).toLowerCase();
+    return lower.getBytes("US-ASCII");
   }
  
   public static byte[] decodeModified(String data) {
@@ -148,7 +150,7 @@ public class Base32 {
      *
      * @param args
      */
-    static public void main(String[] args) {
+    static public void main(String[] args) throws UnsupportedEncodingException {
         if (args.length == 0) {
             System.out.println("Supply a Base32-encoded argument.");
             return;
